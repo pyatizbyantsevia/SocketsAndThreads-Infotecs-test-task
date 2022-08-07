@@ -1,36 +1,40 @@
 #include <iostream>
-#include <string>
+#include <list>
+#include <iterator>
 #include <algorithm>
-#include <cctype>
-#include <stdexcept>
 
-int main(int argc, char* argv[])
+int main()
 {
-    std::string userString;
-    std::cin >> userString;
-    if(userString.size() > 64)
+    std::istream_iterator< char > beginstreamIterator(std::cin);
+    std::istream_iterator< char > finishIstreamIterator;
+    std::list< char > chars;
+    std::copy_if(beginstreamIterator, finishIstreamIterator, 
+                    std::back_inserter(chars), [](const char& i)
     {
-        throw std::invalid_argument("String can't be more then 64 char");
-    }
-    std::for_each(userString.begin(), userString.end(), [](const char &i) 
-    {
-        std::cout << i << ' ';
         if (!std::isdigit(i))
         {
             throw std::invalid_argument("Not digital are not allowed in arguments");
         }
+        return i;
     });
-    std::sort(userString.begin(), userString.end(), std::greater<char>());
-    std::for_each(userString.begin(), userString.end(), [](char& i) 
+    if ((!std::cin && !std::cin.eof()) || chars.size() > 64)
     {
-        char* temp = &i;
-        std::cout << std::atoi(temp) << " ";
-        // if (std::atoi(&i) % 2 == 0)
-        // {
-        //     std::cout << "Четное" << '\n';
-        // }
-        if (i == '2')
+        throw std::invalid_argument("Input error");
+    }
+    chars.sort(std::greater<char>());
+    for (int i = 0; i < chars.size(); i++)
+    {
+        auto current = chars.begin();
+        std::advance(current, i);
+        if (*current % 2 == 0)
         {
+            chars.insert(current, 'K');
+            chars.insert(current, 'B');
+            chars.erase(current);
+            i += 2;
         }
-    });
+    }
+
+    std::ostream_iterator< char > out(std::cout, " ");
+    std::copy(chars.begin(), chars.end(), out);
 }
