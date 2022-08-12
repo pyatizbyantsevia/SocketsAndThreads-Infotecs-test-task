@@ -3,6 +3,8 @@
 
 #include <list>
 #include <iosfwd>
+#include <mutex>
+#include <condition_variable>
 
 namespace pyatizbyantsev
 {
@@ -13,7 +15,9 @@ namespace pyatizbyantsev
         void secondaryProcessing(std::ostream& out);
 
     private:
-        std::list< char > userString;
+        std::list< std::string > buffer;
+        std::mutex mtx;
+        std::condition_variable cv;
     };
 }
 
