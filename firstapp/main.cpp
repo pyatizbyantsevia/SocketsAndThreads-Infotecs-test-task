@@ -1,7 +1,7 @@
 #include "task.hpp"
 
-#include <thread>
 #include <iostream>
+#include <thread>
 
 int main()
 {
@@ -10,6 +10,7 @@ int main()
     {
         task.primaryProcessing(std::cin);
     });
+
     std::thread t2([&task]()
     {
         task.secondaryProcessing(std::cout);
