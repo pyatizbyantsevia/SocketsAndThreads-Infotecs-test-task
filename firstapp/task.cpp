@@ -27,23 +27,23 @@ void pyatizbyantsev::Task::primaryProcessing(std::istream& in)
 
         std::sort(userString.begin(), userString.end(), std::greater<char>());
 
-        std::string formated;
+        std::string formatted;
         for (auto i = userString.begin(); i != userString.end(); i++)
         {
             std::string tmp;
             tmp += *i;
             if (std::stoi(tmp) % 2 == 0)
             {
-                formated += "KB";
+                formatted += "KB";
             }
             else
             {
-                formated += *i;
+                formatted += *i;
             }
         }
 
         std::unique_lock< std::mutex > ulm(mtx);
-        buffer.push_back(std::string(formated.begin(), formated.end()));
+        buffer.push_back(formatted);
         cv.notify_one();
     }
 }
