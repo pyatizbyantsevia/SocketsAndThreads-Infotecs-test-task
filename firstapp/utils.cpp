@@ -5,20 +5,20 @@
 
 bool pyatizbyantsev::hasExtraChar(const std::string& src)
 {
-    for (char i : src) 
+    for (const auto& i : src) 
     {
         if (!std::isdigit(i))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 std::string pyatizbyantsev::formatString(const std::string& src)
 {
     std::string formatted;
-    for (char i : src)
+    for (const auto& i : src)
     {
         std::string tmp;
         tmp += i;
