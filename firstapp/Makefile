@@ -1,6 +1,6 @@
-OBJS	= main.o task.o
-SOURCE	= main.cpp task.cpp
-HEADER	= task.hpp
+OBJS	= main.o task.o utils.o
+SOURCE	= main.cpp task.cpp utils.cpp
+HEADER	= task.hpp utils.hpp
 OUT	= app
 CC	 = g++
 FLAGS	 = -g -c -Wall
@@ -14,6 +14,9 @@ main.o: main.cpp
 
 task.o: task.cpp
 	$(CC) $(FLAGS) task.cpp
+
+utils.o: utils.cpp
+	$(CC) $(FLAGS) utils.cpp
 
 
 clean:

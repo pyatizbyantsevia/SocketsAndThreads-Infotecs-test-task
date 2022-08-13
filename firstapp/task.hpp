@@ -11,8 +11,8 @@ namespace pyatizbyantsev
     class Task
     {
     public:
-        void primaryProcessing(std::istream& in);
-        void secondaryProcessing(std::ostream& out);
+        void primaryProcessing(std::istream&, std::ostream&);
+        void secondaryProcessing(std::ostream&);
 
     private:
         std::list< std::string > buffer;

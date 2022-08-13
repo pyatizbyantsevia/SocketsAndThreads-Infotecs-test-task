@@ -8,7 +8,7 @@ int main()
     pyatizbyantsev::Task task;
     std::thread t1([&task]()
     {
-        task.primaryProcessing(std::cin);
+        task.primaryProcessing(std::cin, std::cerr);
     });
 
     std::thread t2([&task]()
