@@ -55,18 +55,6 @@ void pyatizbyantsev::Task::secondaryProcessing(std::ostream& out)
     {
         std::unique_lock< std::mutex > ulm(mtx);
         cv.wait(ulm, [this] { return !this->buffer.empty(); });
-        std::for_each(buffer.begin(), buffer.end(), [&sum](std::string& i) 
-        {
-            for (char it : i)
-            {
-                if (std::isdigit(it))
-                {
-                    std::string tmp;
-                    tmp += i;
-                    sum += std::stoi(tmp);
-                }
-            }
-        });
         std::copy(buffer.begin(), buffer.end(), std::ostream_iterator< std::string >(out, " "));
         out << '\n';
         buffer.clear();
