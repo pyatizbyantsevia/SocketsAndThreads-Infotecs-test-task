@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 int main()
 {
@@ -10,7 +11,6 @@ int main()
     {
         task.primaryProcessing(std::cin, std::cerr);
     });
-
     std::thread t2([&task]()
     {
         task.secondaryProcessing(std::cout);

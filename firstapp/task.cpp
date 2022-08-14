@@ -45,11 +45,18 @@ void pyatizbyantsev::Task::secondaryProcessing(std::ostream& out)
 {
     while (true)
     {
+        int sum = 0;
         std::unique_lock< std::mutex > ulm(mtx);
         cv.wait(ulm, [this] { return !this->buffer.empty(); });
-        
+    
         std::copy(buffer.begin(), buffer.end(), std::ostream_iterator< std::string >(out, " "));
         out << '\n';
+
+        for (const auto& i : buffer) 
+        {
+            sum += sumOfDigital(i);
+        }
+
         buffer.clear();
     }
 }

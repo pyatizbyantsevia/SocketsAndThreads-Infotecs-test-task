@@ -2,6 +2,7 @@
 
 #include <string>
 #include <algorithm>
+#include <iostream>
 
 bool pyatizbyantsev::hasExtraChar(const std::string& src)
 {
@@ -32,4 +33,19 @@ std::string pyatizbyantsev::formatString(const std::string& src)
         }
     }
     return formatted;
+}
+
+int pyatizbyantsev::sumOfDigital(const std::string& src)
+{
+    int sum = 0;
+    for (const auto& i : src)
+    {
+        if (std::isdigit(i))
+        {
+            std::string tmp;
+            tmp += i;
+            sum += std::stoi(tmp);
+        }
+    }
+    return sum;
 }
