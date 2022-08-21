@@ -1,11 +1,16 @@
 #include "task.hpp"
 
-#include "utils.hpp"
-
 #include <iostream>
 #include <iterator>
 #include <algorithm>
 #include <string>
+
+#include "utils.hpp"
+
+pyatizbyantsev::Task::Task(int port):
+    socketPort_(port)
+{
+}
 
 void pyatizbyantsev::Task::primaryProcessing(std::istream& in, std::ostream& err)
 {
@@ -35,9 +40,9 @@ void pyatizbyantsev::Task::primaryProcessing(std::istream& in, std::ostream& err
 
         userString = pyatizbyantsev::formatString(userString);
 
-        std::unique_lock< std::mutex > ulm(mtx);
-        buffer.push_back(userString);
-        cv.notify_one();
+        std::unique_lock< std::mutex > ulm(mtx_);
+        buffer_.push_back(userString);
+        cv_.notify_one();
     }
 }
 
@@ -46,17 +51,27 @@ void pyatizbyantsev::Task::secondaryProcessing(std::ostream& out)
     while (true)
     {
         int sum = 0;
-        std::unique_lock< std::mutex > ulm(mtx);
-        cv.wait(ulm, [this] { return !this->buffer.empty(); });
+        std::unique_lock< std::mutex > ulm(mtx_);
+        cv_.wait(ulm, [this] { return !this->buffer_.empty(); });
     
-        std::copy(buffer.begin(), buffer.end(), std::ostream_iterator< std::string >(out, " "));
+        std::copy(buffer_.begin(), buffer_.end(), std::ostream_iterator< std::string >(out, " "));
         out << '\n';
 
-        for (const auto& i : buffer) 
+        for (const auto& i : buffer_) 
         {
             sum += sumOfDigital(i);
         }
-
-        buffer.clear();
+        
+        try
+        {
+            SocketWrapper sw(socketPort_);
+            sw.sendSum(1);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        buffer_.clear();
     }
 }
