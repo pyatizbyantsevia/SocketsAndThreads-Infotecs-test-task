@@ -1,12 +1,19 @@
-#include "task.hpp"
-
 #include <iostream>
 #include <thread>
 #include <chrono>
 
-int main()
+#include "task.hpp"
+#include "socket-wrapper.hpp"
+
+int main(int argc, char *argv[])
 {
-    pyatizbyantsev::Task task;
+    if (argc < 2) 
+    {
+        std::cout << "No port provided" << '\n';
+        return 1;
+    }
+
+    pyatizbyantsev::Task task(12345);
     std::thread t1([&task]()
     {
         task.primaryProcessing(std::cin, std::cerr);
