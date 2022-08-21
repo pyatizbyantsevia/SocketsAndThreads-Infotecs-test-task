@@ -1,6 +1,6 @@
-OBJS	= main.o task.o utils.o
-SOURCE	= main.cpp task.cpp utils.cpp
-HEADER	= task.hpp utils.hpp
+OBJS	= main.o task.o utils.o socket-wrapper.o
+SOURCE	= main.cpp task.cpp utils.cpp socket-wrapper.cpp
+HEADER	= task.hpp utils.hpp socket-wrapper.hpp
 OUT	= app
 CC	 = g++
 FLAGS	 = -g -c -Wall
@@ -17,6 +17,9 @@ task.o: task.cpp
 
 utils.o: utils.cpp
 	$(CC) $(FLAGS) utils.cpp
+
+socket-wrapper.o: socket-wrapper.cpp
+	$(CC) $(FLAGS) socket-wrapper.cpp
 
 
 clean:
